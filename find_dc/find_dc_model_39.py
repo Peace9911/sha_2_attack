@@ -116,9 +116,9 @@ class FunctionModel:
         for i in range(self.__start_step, self.__end_step):
             for j in range(self.__block_size):
                 if i == self.__end_step - 1 and j == self.__block_size - 1:
-                    temp += "0bin000000000@%s) = 0bin%s;\n" % ("xd_" + str(i) + "_" + str(j), bin(obj)[2:].zfill(10))
+                    temp += "0bin000000000@%s) = 0bin%s;\n" % ("yd_" + str(i) + "_" + str(j), bin(obj)[2:].zfill(10))
                 else:
-                    temp += "0bin000000000@%s," % ("xd_" + str(i) + "_" + str(j))
+                    temp += "0bin000000000@%s," % ("yd_" + str(i) + "_" + str(j))
         return temp
 
     def solver(self):
