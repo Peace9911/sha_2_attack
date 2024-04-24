@@ -109,8 +109,7 @@ def addition_function(block_size, in_var_v_0, in_var_d_0,
     (in_var_c_v, in_var_c_d): carry[i+1]
     :return: addition constrain
     """
-    eqn = ""
-    eqn += "ASSERT %s = 0bin0;\n" % (in_var_c_v[0])
+    eqn = "ASSERT %s = 0bin0;\n" % (in_var_c_v[0])
     eqn += "ASSERT %s = 0bin0;\n" % (in_var_c_d[0])
     for i in range(block_size):
         temp = [in_var_v_0[i], in_var_d_0[i],
@@ -306,21 +305,21 @@ def sha_e(block_size, __op0, __op1, __op2, step):
                                               in_var_v_m, in_var_d_m,
                                               in_var_v_b[3], in_var_d_b[3],
                                               in_var_v_c[2], in_var_d_c[2],
-                                              in_var_v_b[4], in_var_d_b[4]))
+                                              in_var_v_b[5], in_var_d_b[5]))
     # computer Ei
     eqn__constraints.append(addition_function(block_size,
                                               in_var_v_a0, in_var_d_a0,
-                                              in_var_v_b[4], in_var_d_b[4],
+                                              in_var_v_b[5], in_var_d_b[5],
                                               in_var_v_c[3], in_var_d_c[3],
                                               in_var_v_b[4], in_var_d_b[4]))
     if __op2 == 0:
         eqn__constraints.append(expand_model(block_size,
-                                             in_var_v_b[5], in_var_d_b[5],
+                                             in_var_v_b[4], in_var_d_b[4],
                                              in_var_v_c[4], in_var_d_c[4],
                                              in_var_v_e[4], in_var_d_e[4], __op2))
     else:
         eqn__constraints.append(expand_model(block_size,
-                                             in_var_v_b[5], in_var_d_b[5],
+                                             in_var_v_b[4], in_var_d_b[4],
                                              in_var_v_c[4], in_var_d_c[4],
                                              in_var_v_e[4], in_var_d_e[4], __op2))
     return eqn__variable, eqn__constraints
@@ -404,7 +403,7 @@ def sha_a(block_size, __op3, __op4, __op5, step):
                                              in_var_a[1]))
 
     eqn__constraints.append(addition_function(block_size,
-                                              in_var_v_b[4], in_var_d_b[4],
+                                              in_var_v_b[5], in_var_d_b[5],
                                               in_var_v_b[6], in_var_d_b[6],
                                               in_var_v_c[5], in_var_d_c[5],
                                               in_var_v_b[8], in_var_d_b[8]))
@@ -423,7 +422,7 @@ def sha_a(block_size, __op3, __op4, __op5, step):
         eqn__constraints.append(expand_model(block_size,
                                              in_var_v_b[9], in_var_d_b[9],
                                              in_var_v_c[7], in_var_d_c[7],
-                                             in_var_v_a[4], in_var_d_a[4], __op5 ^ 1))
+                                             in_var_v_a[4], in_var_d_a[4], __op5))
     return eqn__variable, eqn__constraints
 
 
@@ -458,10 +457,10 @@ def message_expand(block_size, __op6, step):
         temp_b_v = []
         temp_b_d = []
         for j in range(block_size):
-            temp_b_v.append("mv" + str(i) + "_" + str(step) + "_" + str(j))
-            temp_b_d.append("md" + str(i) + "_" + str(step) + "_" + str(j))
-            eqn__variable.append("mv" + str(i) + "_" + str(step) + "_" + str(j) + ": BITVECTOR(1);\n")
-            eqn__variable.append("md" + str(i) + "_" + str(step) + "_" + str(j) + ": BITVECTOR(1);\n")
+            temp_b_v.append("mbv" + str(i) + "_" + str(step) + "_" + str(j))
+            temp_b_d.append("mbd" + str(i) + "_" + str(step) + "_" + str(j))
+            eqn__variable.append("mbv" + str(i) + "_" + str(step) + "_" + str(j) + ": BITVECTOR(1);\n")
+            eqn__variable.append("mbd" + str(i) + "_" + str(step) + "_" + str(j) + ": BITVECTOR(1);\n")
         in_var_v_b.append(temp_b_v)
         in_var_d_b.append(temp_b_d)
     in_var_v_c = []
@@ -508,28 +507,28 @@ def message_expand(block_size, __op6, step):
         eqn__constraints.append(temp)
 
     eqn__constraints.append(xor_function(block_size,
-                                         right_shift(in_var_v_w[0], 17), right_shift(in_var_d_w[0], 17),
-                                         right_shift(in_var_v_w[0], 19), right_shift(in_var_d_w[0], 19),
-                                         right_shift(in_var_v_w[0], 10)[:22] + temp_v0,
-                                         right_shift(in_var_d_w[0], 10)[:22] + temp_d0,
-                                         in_var_v_b[0], in_var_d_b[0],
-                                         right_shift(in_var_w0, 17),
-                                         right_shift(in_var_w0, 19),
-                                         right_shift(in_var_w0, 10)[:22] + temp_0))
+                                             right_shift(in_var_v_w[0], 17), right_shift(in_var_d_w[0], 17),
+                                             right_shift(in_var_v_w[0], 19), right_shift(in_var_d_w[0], 19),
+                                             right_shift(in_var_v_w[0], 10)[:22] + temp_v0,
+                                             right_shift(in_var_d_w[0], 10)[:22] + temp_d0,
+                                             in_var_v_b[0], in_var_d_b[0],
+                                             right_shift(in_var_w0, 17),
+                                             right_shift(in_var_w0, 19),
+                                             right_shift(in_var_w0, 10)[:22] + temp_0))
     eqn__constraints.append(addition_function(block_size,
                                               in_var_v_b[0], in_var_d_b[0],
                                               in_var_v_w[1], in_var_d_w[1],
                                               in_var_v_c[0], in_var_d_c[0],
                                               in_var_v_b[1], in_var_d_b[1]))
     eqn__constraints.append(xor_function(block_size,
-                                         right_shift(in_var_v_w[2], 7), right_shift(in_var_d_w[2], 7),
-                                         right_shift(in_var_v_w[2], 18), right_shift(in_var_d_w[2], 18),
-                                         right_shift(in_var_v_w[2], 3)[:29] + temp_v1,
-                                         right_shift(in_var_d_w[2], 3)[:29] + temp_d1,
-                                         in_var_v_b[2], in_var_d_b[2],
-                                         right_shift(in_var_w2, 7),
-                                         right_shift(in_var_w2, 18),
-                                         right_shift(in_var_w2, 3)[:29] + temp_1))
+                                             right_shift(in_var_v_w[2], 7), right_shift(in_var_d_w[2], 7),
+                                             right_shift(in_var_v_w[2], 18), right_shift(in_var_d_w[2], 18),
+                                             right_shift(in_var_v_w[2], 3)[:29] + temp_v1,
+                                             right_shift(in_var_d_w[2], 3)[:29] + temp_d1,
+                                             in_var_v_b[2], in_var_d_b[2],
+                                             right_shift(in_var_w2, 7),
+                                             right_shift(in_var_w2, 18),
+                                             right_shift(in_var_w2, 3)[:29] + temp_1))
     eqn__constraints.append(addition_function(block_size,
                                               in_var_v_b[1], in_var_d_b[1],
                                               in_var_v_b[2], in_var_d_b[2],
@@ -608,8 +607,8 @@ def sha2_value(block_size, fna0, fna1, step):
         for j in range(block_size):
             temp_b_v.append("xv" + "_" + str(step - 4 + i) + "_" + str(j))
             temp_b_d.append("xd" + "_" + str(step - 4 + i) + "_" + str(j))
-            eqn__variable.append("xv" + "_" + str(step - 4 + i) + "_" + str(j) + ": BITVECTOR(1);\n")
-            eqn__variable.append("xd" + "_" + str(step - 4 + i) + "_" + str(j) + ": BITVECTOR(1);\n")
+            eqn__variable.append("yv" + "_" + str(step - 4 + i) + "_" + str(j) + ": BITVECTOR(1);\n")
+            eqn__variable.append("yd" + "_" + str(step - 4 + i) + "_" + str(j) + ": BITVECTOR(1);\n")
         in_var_v_a.append(temp_b_v)
         in_var_d_a.append(temp_b_d)
 
@@ -628,11 +627,11 @@ def sha2_value(block_size, fna0, fna1, step):
 
     in_var_b = []
     for j in range(9):
-        in_var_bm = []
+        in_var_bc = []
         for i in range(block_size):
-            in_var_bm.append("b" + str(j) + "_" + str(step) + "_" + str(i))
+            in_var_bc.append("b" + str(j) + "_" + str(step) + "_" + str(i))
             eqn__variable.append("b" + str(j) + "_" + str(step) + "_" + str(i) + ": BITVECTOR(1);\n")
-        in_var_b.append(in_var_bm)
+        in_var_b.append(in_var_bc)
 
     in_var_c = []
     for j in range(7):
@@ -725,4 +724,3 @@ def read_differential_characteristic(block_size, result_file, step):
         result.append(get_dc(block_size, data_list, var, step))
         result.append("")
     return result
-
